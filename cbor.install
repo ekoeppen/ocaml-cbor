@@ -1,13 +1,16 @@
 lib: [
   "_build/install/default/lib/cbor/META" {"META"}
-  "_build/install/default/lib/cbor/opam" {"opam"}
-  "_build/install/default/lib/cbor/cbor.cmi" {"cbor.cmi"}
-  "_build/install/default/lib/cbor/cbor.cmx" {"cbor.cmx"}
-  "_build/install/default/lib/cbor/cbor.cmt" {"cbor.cmt"}
-  "_build/install/default/lib/cbor/cbor.ml" {"cbor.ml"}
-  "_build/install/default/lib/cbor/cbor.cma" {"cbor.cma"}
-  "_build/install/default/lib/cbor/cbor.cmxa" {"cbor.cmxa"}
   "_build/install/default/lib/cbor/cbor.a" {"cbor.a"}
+  "_build/install/default/lib/cbor/cbor.cma" {"cbor.cma"}
+  "_build/install/default/lib/cbor/cbor.cmi" {"cbor.cmi"}
+  "_build/install/default/lib/cbor/cbor.cmt" {"cbor.cmt"}
+  "_build/install/default/lib/cbor/cbor.cmx" {"cbor.cmx"}
+  "_build/install/default/lib/cbor/cbor.cmxa" {"cbor.cmxa"}
   "_build/install/default/lib/cbor/cbor.cmxs" {"cbor.cmxs"}
-  "_build/install/default/lib/cbor/cbor.dune" {"cbor.dune"}
+  "_build/install/default/lib/cbor/cbor.ml" {"cbor.ml"}
+  "_build/install/default/lib/cbor/dune-package" {"dune-package"}
+  "_build/install/default/lib/cbor/opam" {"opam"}
+]
+doc: [
+  "_build/install/default/doc/cbor/LICENSE"
 ]

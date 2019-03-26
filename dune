@@ -1,0 +1,18 @@
+; vim:ft=lisp
+
+(library
+ (name cbor)
+ (public_name cbor)
+ (modules cbor)
+ (libraries core lwt cmdliner logs fmt lwt.unix logs.fmt logs.cli fmt.cli
+   fmt.tty unix)
+ (preprocess
+  (pps lwt_ppx ppx_let ppx_jane)))
+
+(executable
+ (name cbor_test)
+ (modules cbor_test)
+ (libraries core lwt cmdliner logs fmt lwt.unix logs.fmt logs.cli fmt.cli
+   fmt.tty unix cbor)
+ (preprocess
+  (pps lwt_ppx ppx_let ppx_jane)))
