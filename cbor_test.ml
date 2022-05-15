@@ -56,14 +56,11 @@ let setup_log style_renderer level =
   ()
 
 let logging =
-  let env = Arg.env_var "CBOR_TEST_VERBOSITY" in
+  let env = Cmd.Env.info "CBOR_TEST_VERBOSITY" in
   Term.(const setup_log $ Fmt_cli.style_renderer () $ Logs_cli.level ~env ())
 
 let cmd =
-  let doc = "CBOR Test" in
-  let exits = Term.default_exits in
-  Term.(const test $ logging),
-  Term.info "cbor_test" ~doc ~exits
+  let info = Cmd.info "cbor_test" in
+  Cmd.v info (Term.(const test $ logging))
 
-let () = Term.(eval cmd |> exit)
-
+let () = Cmd.(eval cmd |> exit)

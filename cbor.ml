@@ -86,6 +86,12 @@ let byte_string_of_string s =
   then Some (decode_byte_string additional s)
   else None
 
+let utf8_string_of_string s =
+  let (major, additional) = decode_first s in
+  if major = UTF8_STRING
+  then Some (decode_byte_string additional s)
+  else None
+
 let tag_of_string s =
   let (major, additional) = decode_first s in
   if major = TAG
@@ -105,13 +111,13 @@ let map_of_string s =
   else None
 
 let float_of_string s =
-  let open Core.Option.Let_syntax in
   let (major, additional) = decode_first s in
   match major with
   | SIMPLE_OR_FLOAT -> None
   | TAG ->
       let tag, s = decode_int additional s in
       if tag == 4 then begin
+        let open Core.Option.Let_syntax in
         let%bind n, s = array_of_string s in
         if n == 2 then begin
           let%bind exponent, s = int_of_string s in

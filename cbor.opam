@@ -1,4 +1,4 @@
 opam-version: "2.0"
-name: "cbor"
-version: "1.0"
+name: "ll-cbor"
+version: "1.0.1"
 maintainer: "Eckhart Koeppen <eck@40hz.org>"
