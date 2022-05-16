@@ -1,5 +1,8 @@
 open Cmdliner
 
+let ( let* ) = Option.bind
+let ( let+ ) o f = Option.map f o
+
 let major_test s =
   let major = Cbor.major_of_string s |> Cbor.string_of_major in
   Logs.info (fun m -> m "Major: %s" major)
@@ -10,15 +13,14 @@ let int_test s =
   | None -> Logs.info (fun m -> m "Not an integer")
 
 let int_2x_test s =
-  let open Core.Option.Let_syntax in
-  let%bind (n1, s) = Cbor.int_of_string s in
-  let%map (n2, _) = Cbor.int_of_string s in
+  let* (n1, s) = Cbor.int_of_string s in
+  let+ (n2, _) = Cbor.int_of_string s in
   Logs.info (fun m -> m "Integers: %d %d" n1 n2)
 
 let float_test s =
   match Cbor.float_of_string s with
   | Some (n, _) -> Logs.info (fun m -> m "Float: %f" n)
-  | None -> Logs.info (fun m -> m "No a float")
+  | None -> Logs.info (fun m -> m "Not a float")
 
 let tag_test s =
   match Cbor.tag_of_string s with

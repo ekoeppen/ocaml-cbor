@@ -3,14 +3,9 @@
 (library
  (name cbor)
  (public_name cbor)
- (modules cbor)
- (libraries core)
- (preprocess (pps ppx_let)))
+ (modules cbor))
 
 (executable
  (name cbor_test)
  (modules cbor_test)
- (libraries core cmdliner logs fmt lwt.unix logs.fmt logs.cli fmt.cli
-   fmt.tty unix cbor)
- (preprocess
-  (pps lwt_ppx ppx_let)))
+ (libraries cmdliner logs fmt logs.fmt logs.cli fmt.cli fmt.tty cbor))

@@ -33,6 +33,11 @@ let string_of_major = function
 
 (* **** Low level decoding ************************************************* *)
 
+let ( let* ) = Option.bind
+
+let drop_prefix s n =
+  String.sub s n ((String.length s) - n)
+
 let additional_info first =
   first land 0b00011111
 
@@ -48,17 +53,17 @@ let major_of_string s =
 
 let decode_int additional s =
   match additional with
-  | n when n < 24 -> (n, Core.String.drop_prefix s 1)
-  | 24 -> (String.get s 1 |> Char.code, Core.String.drop_prefix s 2)
+  | n when n < 24 -> (n, drop_prefix s 1)
+  | 24 -> (String.get s 1 |> Char.code, drop_prefix s 2)
   | 25 ->
       ((String.get s 1 |> Char.code) lsl 8 +
        (String.get s 2 |> Char.code),
-    Core.String.drop_prefix s 3)
+    drop_prefix s 3)
   | 26 ->
       ((String.get s 1 |> Char.code) lsl 24 +
        (String.get s 2 |> Char.code) lsl 16 +
        (String.get s 3 |> Char.code) lsl 8 +
-       (String.get s 4 |> Char.code), Core.String.drop_prefix s 5)
+       (String.get s 4 |> Char.code), drop_prefix s 5)
   | 27 -> raise (Failure "Not implemented")
   | _ -> raise (Failure "Incorrect additional information")
 
@@ -68,8 +73,8 @@ let decode_negative_int additional s =
 
 let decode_byte_string additional s =
   let (length, s) = decode_int additional s in
-  let str = Core.String.prefix s length in
-  (str, Core.String.drop_prefix s length)
+  let str = String.sub s 0 length in
+  (str, drop_prefix s length)
 
 (* **** Decoding of CBOR elements ****************************************** *)
 
@@ -117,11 +122,10 @@ let float_of_string s =
   | TAG ->
       let tag, s = decode_int additional s in
       if tag == 4 then begin
-        let open Core.Option.Let_syntax in
-        let%bind n, s = array_of_string s in
+        let* n, s = array_of_string s in
         if n == 2 then begin
-          let%bind exponent, s = int_of_string s in
-          let%bind mantissa, s = int_of_string s in
+          let* exponent, s = int_of_string s in
+          let* mantissa, s = int_of_string s in
           Some (float_of_int mantissa *. 10.0 ** (float_of_int exponent), s)
         end
         else
